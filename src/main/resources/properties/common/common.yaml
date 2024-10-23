@@ -1,0 +1,5 @@
+# Listener Configuration
+http:
+  host: "localhost"
+  readTimeout: "30000"
+  port: "8081"

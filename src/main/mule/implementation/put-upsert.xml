@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="put-upsert-sub-flow" doc:id="8696b41d-911e-4991-be54-1de85e59fdc5" >
+		<logger level="INFO" doc:name="Flow Start" doc:id="945cb52f-58ff-4606-b575-4ee9ad1ff6dc" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String),&#10;    "objName": attributes.headers.objectType&#10;}]'/>
+		<ee:transform doc:name="var : objName, extIdField,payload" doc:id="acd2fc67-f4b4-4d56-9477-4694377153cc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="extIdField" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers.ExternalId]]></ee:set-variable>
+				<ee:set-variable variableName="objName" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers.objectType]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<until-successful maxRetries="5" doc:name="Retry" doc:id="6c942f0f-d9f3-4241-97da-b2767537161c" >
+			<logger level="INFO" doc:name="Before upserting record in Salesforce" doc:id="98d435ef-3adc-460e-bf12-5ba0dadb5367" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Before upserting record in Salesforce",&#10;    "objName": vars.objName&#10;}]'/>
+			<salesforce:upsert objectType="#[vars.objName]" externalIdFieldName="#[vars.extIdField]" doc:name="Upsert record in Salesforce" doc:id="c50ec471-0c90-4ec5-8eae-0a8d8fb179c9" config-ref="salesforce-config">
+				<salesforce:records ><![CDATA[#[[payload]]]]></salesforce:records>
+		</salesforce:upsert>
+			<logger level="INFO" doc:name="After upserting record in Salesforce" doc:id="1fb5e363-af6b-4ffc-8737-2ba3dec1366b" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "After upserting record in Salesforce",&#10;    "objName": vars.objName&#10;}]'/>
+		</until-successful>
+		<ee:transform doc:name="Output payload" doc:id="27fb7c72-578e-4630-9c3a-5d8aa3dca4a6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Flow End" doc:id="49aff343-da95-4897-973e-44d3525a3998" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String),&#10;    "objName": attributes.headers.objectType&#10;}]'/>
+	</sub-flow>
+	</mule>

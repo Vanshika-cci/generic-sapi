@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+    <http:listener-config name="generic-sapi-http-listener-config" doc:description="Listener Configurations for sapi">
+        <http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${http.readTimeout}" />
+    </http:listener-config>
+    <apikit:config name="generic-sapi-config" api="resource::ce235d46-115c-497c-b0e2-474afd80f5e9:generic-sapi:1.0.3:raml:zip:generic-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <configuration-properties doc:name="configuration-properties" doc:id="586a1bf6-feab-46cb-830f-79273139ce01" file="properties\common\common.yaml" doc:description="Common Configuration Properties" />
+    <configuration-properties doc:name="configuration-properties" doc:id="69e175aa-4796-4d78-88f6-caee49eff107" file="properties\config-${mule.env}.yaml" doc:description="Environment Specific Configuration Properties" />
+    <secure-properties:config name="secure-properties-config" doc:name="Secure Properties Config" doc:id="dd2d96e4-e42c-4cb3-9f1b-c53010749727" file="properties\secure\config-${mule.env}-secure.yaml" key="${mule.key}" doc:description="Secure Configuration Properties" />
+    <salesforce:sfdc-config name="salesforce-config" doc:name="Salesforce Config" doc:id="aebd253e-3e3b-4466-b1ff-29f049808175" doc:description="Salesforce Configurations">
+        <salesforce:basic-connection username="${sf.user}" password="${secure::sf.password}" securityToken="${secure::sf.token}" />
+    </salesforce:sfdc-config>
+	<global-property doc:name="Global Property" doc:id="d4788fab-bb34-44e9-bd12-6d08e142454b" name="mule.env" value="dev" />
+	<global-property doc:name="Global Property" doc:id="77ab336a-9169-46a9-8887-49b3b556f47e" name="mule.key" value="abcdef1234567890" />
+</mule>

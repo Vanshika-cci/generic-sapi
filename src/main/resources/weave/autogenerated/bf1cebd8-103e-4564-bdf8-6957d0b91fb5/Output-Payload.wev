@@ -1,0 +1,9 @@
+%dw 2.0
+
+type auto_bf1cebd8_103e_4564_bdf8_6957d0b91fb5_Output_Payload = {
+  date: String, 
+  appName: String, 
+  status: String, 
+  _?: Any
+}
+

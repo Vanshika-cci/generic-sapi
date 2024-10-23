@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="get-heath-check-sub-flow" doc:id="42141d95-98d9-4e30-9823-9dc097d34647" >
+		<logger level="INFO" doc:name="Flow Start" doc:id="d8bec3de-e4e9-4b96-b148-1ffb1e94e0d1" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String)&#10;}]'/>
+		<ee:transform doc:name="Health Check Response" doc:id="a1ad172a-1f8f-49a1-87dc-f9891b6b0555" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json encoding="UTF-8"
+---
+{
+	"appName": app.name,
+	"status" : "Active",
+	"timeStamp": now() as DateTime as String {format: "yyyy-MM-dd'T'hh:mm:ss"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Flow End" doc:id="9a4ed538-7eec-4169-84bd-448fc707bc31" message='#[output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String)&#10;}]'/>
+	</sub-flow>
+</mule>

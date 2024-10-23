@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="post-create-sub-flow" doc:id="83fbd6a9-7442-4344-8f52-16f6800d206b" >
+		<logger level="INFO" doc:name="Flow Start" doc:id="5ecbb628-be8b-42ff-99f3-990bb4c74e03" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String),&#10;    "objName": attributes.headers.objectType&#10;}]'/>
+		<ee:transform doc:name="var : objName,payload" doc:id="ecd6172f-51d4-4a9a-9528-b6a05e3e2e73" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="objName" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers.objectType]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<until-successful maxRetries="5" doc:name="Retry" doc:id="575edbdf-2e7d-4e0b-bc62-ceeaf24c7acf" >
+			<logger level="INFO" doc:name="Before creating record in Salesforce" doc:id="0bc84f9f-fa4b-404f-bd08-864f317f1f13" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Before creating record in Salesforce",&#10;    "objName": vars.objName&#10;}]'/>
+			<salesforce:create type="#[vars.objName]" doc:name="Create record in Salesforce" doc:id="c80a2132-2d40-48d8-9811-81c3fdee77aa" config-ref="salesforce-config">
+				<salesforce:records ><![CDATA[#[[payload]]]]></salesforce:records>
+		</salesforce:create>
+			<logger level="INFO" doc:name="After creating record in Salesforce" doc:id="c00c003d-04b2-4fce-ac86-983e9df385b4" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "After creating record in Salesforce",&#10;    "objName": vars.objName&#10;}]'/>
+		</until-successful>
+		<ee:transform doc:name="Output payload" doc:id="182d9817-63dc-4c82-82a3-5a57582d321b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Flow End" doc:id="0d6d0a44-a542-4f51-a8d9-67fd049d9567" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String),&#10;    "objName": vars.objName&#10;}]'/>
+	</sub-flow>
+	</mule>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="post-query-sub-flow" doc:id="a9eabe56-d059-42fc-8d93-10722c140cd0" >
+		<logger level="INFO" doc:name="Flow Start" doc:id="5dda75c4-e6bc-44e2-b375-8bb266e6adeb" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String),&#10;    "Query": attributes.headers.query&#10;}]'/>
+		<ee:transform doc:name="var : SOQL, payload" doc:id="0edad405-4ae3-432b-b504-bc383ac54e6d">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="SOQL" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.query]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<until-successful maxRetries="5" doc:name="Retry" doc:id="f5257a36-a9a2-4024-89a5-c977db07498a" >
+			<logger level="INFO" doc:name="Before querying records from Salesforce" doc:id="c97fcfdb-c688-486e-9373-990a6d0df699" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Before querying records from Salesforce"&#10;}]'/>
+			<salesforce:query doc:name="Query records from Salesforce" doc:id="8399f14c-3c36-4309-b069-5f363c9f9380" config-ref="salesforce-config">
+			<salesforce:salesforce-query><![CDATA[#[vars.SOQL]]]></salesforce:salesforce-query>
+		</salesforce:query>
+			<logger level="INFO" doc:name="After querying records from Salesforce" doc:id="0b1f6f99-cb0e-48df-bc5e-e15f9f000dc3" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "After querying records from Salesforce"&#10;}]'/>
+		</until-successful>
+		<ee:transform doc:name="Output payload" doc:id="c21194d6-2879-4064-942b-0be9efaf5782" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Flow End" doc:id="79c2916a-7909-4404-8d59-1168de182ed1" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String)&#10;}]'/>
+	</sub-flow>
+	</mule>
