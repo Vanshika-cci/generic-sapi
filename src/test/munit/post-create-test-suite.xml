@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="post-create-test-suite.xml" />
+	<munit:test name="post-create-success-test-suite" doc:id="38ae4306-b4b2-49ce-b136-550c50abf578" description="Success">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : Create Record in Salesforce" doc:id="97465e2e-b244-4d36-8170-7f0e5c69438f" processor="salesforce:create">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c80a2132-2d40-48d8-9811-81c3fdee77aa" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://response/createSalesforceResponse.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Payload &amp;&amp; Attributes" doc:id="7300b621-5c6a-4b92-8c4a-826ac431845e" >
+				<munit:payload value='#[readUrl("classpath://request/createSalesforceRequestPayload.dwl")]' />
+				<munit:attributes value='#[readUrl("classpath://request/createSalesforceRequestHeaders.dwl")]' />
+			</munit:set-event>
+			<flow-ref doc:name="post-create-sub-flow" doc:id="ac4f7919-89c1-41a4-9bea-f9dc4faebfa7" name="post-create-sub-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="69404668-7dc5-4063-86ee-8a1811738c2d" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0d6d0a44-a542-4f51-a8d9-67fd049d9567" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

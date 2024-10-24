@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="generic-sapi-error-test-suite.xml" />
+	<munit:test name="generic-sapi-apikit-bad-request-error-test-suite" doc:id="edee48c2-ed18-4737-9079-313021a1633b" expectedErrorType="APIKIT:BAD_REQUEST" description="Error">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="0daf755a-02e4-4f94-851d-6a659e3a4ed3" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="ec99fdda-ab54-46c3-b893-5b498a36d45e" name="generic-sapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="generic-sapi-apikit-not-found-error-test-suite" doc:id="c5cb8c6b-44aa-4570-b8e7-5faa0a696310" description="Error" expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="230f879f-ff0c-4ec1-a9c0-f8193486ba17" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="bff66675-d5ab-4036-ba7e-34ad2654bf45" name="generic-sapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="generic-sapi-apikit-method-not-allowed-error-test-suite" doc:id="7664757b-6290-4b6e-b855-bd80e27d0930" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED" description="Error">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="463c043d-88b7-4edc-be9f-745b9c09a42f" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="fe3d8c08-c953-4221-a583-1938b3e22b0f" name="generic-sapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="generic-sapi-apikit-not-acceptable-error-test-suite" doc:id="7ab2f224-a3f0-4ded-b866-70280dad1f47" description="Error" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="2425aba3-a312-4896-95ec-8b6f2078985b" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="0263d9ed-3a2b-495e-817f-8e7458a4575e" name="generic-sapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="generic-sapi-apikit-unsupported-media-type-error-test-suite" doc:id="cf450f7b-3c7e-4d71-862e-aa7640938e8b" description="Error" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="3bc0cfae-9298-40c1-affc-741bc8e45e5d" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="f37b2de4-c4df-4a0b-8638-4c3ea0906128" name="generic-sapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="generic-sapi-apikit-not-implemented-error-test-suite" doc:id="8c3ae0c5-f6a3-4173-83f9-fc215821b49a" description="Error" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="c4b509a4-7b08-4d87-9382-9da677797f9d" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="e8fe6724-787b-4300-ade8-e62f38124d28" name="generic-sapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<!-- [STUDIO:"generic-sapi-salesforce-connectivity-error-test-suite"]<munit:test name="generic-sapi-salesforce-connectivity-error-test-suite" doc:id="993b1db1-2b54-4a6a-9f6b-cc278b938f9f" expectedErrorType="SALESFORCE:CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : Create Record in Salesforce" doc:id="aa7778a2-f70a-4f2c-baba-9aa182508106" processor="salesforce:create">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c80a2132-2d40-48d8-9811-81c3fdee77aa" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="SALESFORCE:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="post-create-sub-flow" doc:id="48a02d2f-cf46-4191-9474-20abb5295f6b" name="post-create-sub-flow"/>
+		</munit:execution>
+	</munit:test> [STUDIO] -->
+
+</mule>

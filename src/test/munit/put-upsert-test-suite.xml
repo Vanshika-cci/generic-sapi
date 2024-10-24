@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="put-upsert-test-suite.xml" />
+	<munit:test name="put-upsert-success-test-suite" doc:id="819983fa-c0ac-43de-b4ee-d8e82d4730da" description="Success">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : Upsert Record in Salesforce" doc:id="0582ae6f-f453-4747-a30e-56f25f1b306b" processor="salesforce:upsert">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c50ec471-0c90-4ec5-8eae-0a8d8fb179c9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://response/upsertSalesforceResponse.dwl')]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set : Payload &amp;&amp; Attributes" doc:id="69d9e824-713d-443d-9485-96e9c0347552" >
+				<munit:payload value="#[readUrl('classpath://request/upsertSalesforceRequestPayload.dwl')]" />
+				<munit:attributes value="#[readUrl('classpath://request/upsertSalesforceRequestHeaders.dwl')]" />
+			</munit:set-event>
+			<flow-ref doc:name="put-upsert-sub-flow" doc:id="80f171d1-d14a-42dd-8580-68bff1e8a9ce" name="put-upsert-sub-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="87819e83-8773-4642-aaae-eed50f6e18b4" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="49aff343-da95-4897-973e-44d3525a3998" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

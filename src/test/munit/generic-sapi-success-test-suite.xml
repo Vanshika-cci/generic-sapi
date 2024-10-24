@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="generic-sapi-success-test-suite.xml" />
+	<munit:test name="generic-sapi-success-test-suite" doc:id="f615ed03-dec9-43f6-8aa1-bbd31ae4c148" description="Success">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : APIkit Router" doc:id="138e9a37-2627-40dd-a4f9-3b3f853bd7c2" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="generic-sapi-main" doc:id="4398a644-e886-4090-80d5-0b7f39f7cf53" name="generic-sapi-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : APIkit Router" doc:id="4d251875-f3fc-48c3-a38d-0cbb468034c7" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="generic-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="generic-sapi-success-test-suiteTest" doc:id="389ae2e4-1a5a-4709-9f0b-b0131c66f244" description="Success">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : post-create-sub-flow" doc:id="042c0eb7-a1ca-4865-bf48-256fb6d19d2d" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e334c220-2c64-4374-b762-c120ec70bebf" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="post:\create:application\json:generic-sapi-config" doc:id="8a8b6877-e34a-4645-9abf-648d2d69a665" name="post:\create:application\json:generic-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="33bc75b5-36dc-426c-b444-21686ea9e463" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="275d4eb9-8b89-44af-a0fd-2b958d113a44" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="generic-sapi-success-test-suiteTest1" doc:id="2727c689-9dfd-4107-bdd7-58ce745a05b7">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : put-upsert-sub-flow" doc:id="da67be5f-411e-4dee-9097-62e78611b75d" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="4f923cb1-74a1-4525-bf92-a862f981720e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="put:\upsert:application\json:generic-sapi-config" doc:id="44268791-5962-4ed6-b052-807279933706" name="put:\upsert:application\json:generic-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="0048e61a-c36c-4006-b6d9-e95f4b930972" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="2bf0f62f-3d42-441a-afad-0fe976863ae0" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="generic-sapi-success-test-suiteTest2" doc:id="7fcd2717-c4d9-4cd9-a1e1-9d776a71d9e3">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : post-query-sub-flow" doc:id="90fa0921-617e-403d-be94-f498e889d5ed" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3f34cc6e-c839-4195-b257-0d8c5c1f7e9f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="post:\fetch:application\json:generic-sapi-config" doc:id="9a4d799b-e8a8-49d2-ac28-8bf490630b63" name="post:\fetch:application\json:generic-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="54d930bc-72f7-4d69-98da-3fc9903d4e1c" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ed75676d-662b-429b-bfd3-72a24be96af5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="generic-sapi-success-test-suiteTest3" doc:id="cf0efd55-1659-4d0d-b439-a8e0cfc93466">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : get-health-check-sub-flow" doc:id="87f4d9d2-6d34-464d-8934-722c24616a94" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="5ff0c09c-9209-4fcd-8388-3f4a87a46f36" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="get:\healthCheck:generic-sapi-config" doc:id="8a02ddcf-92e6-403b-9672-4693297d8100" name="get:\healthCheck:generic-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="23f8af5a-89cd-4e47-ac99-def0be954949" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b72968d8-6c15-4ec6-9b95-f068bf603366" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="post-query-test-suite.xml" />
+	<munit:test name="post-query-success-test-suite" doc:id="875dca8c-2319-4393-bfb0-31b25245d9d4" description="Success">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock : Query Records from Salesforce" doc:id="be495f30-81a0-443d-a68c-210f89af0150" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8399f14c-3c36-4309-b069-5f363c9f9380" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://response/querySalesforceResponse.dwl')]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set : Payload &amp;&amp; Attributes" doc:id="836a8506-4488-404d-8fbe-be64db8e16ae" >
+				<munit:payload value="#[readUrl('classpath://request/querySalesforceRequestPayload.dwl')]" />
+			</munit:set-event>
+			<flow-ref doc:name="post-query-sub-flow" doc:id="6b69abec-6bb3-4b1c-a303-b20db08f0a1c" name="post-query-sub-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="58b25a62-d356-4d6e-8da9-0457f69d45a0" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="79c2916a-7909-4404-8d59-1168de182ed1" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

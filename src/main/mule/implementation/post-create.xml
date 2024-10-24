@@ -24,7 +24,7 @@ attributes.headers.objectType]]></ee:set-variable>
 		<until-successful maxRetries="5" doc:name="Retry" doc:id="575edbdf-2e7d-4e0b-bc62-ceeaf24c7acf" >
 			<logger level="INFO" doc:name="Before creating record in Salesforce" doc:id="0bc84f9f-fa4b-404f-bd08-864f317f1f13" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Before creating record in Salesforce",&#10;    "objName": vars.objName&#10;}]'/>
 			<salesforce:create type="#[vars.objName]" doc:name="Create record in Salesforce" doc:id="c80a2132-2d40-48d8-9811-81c3fdee77aa" config-ref="salesforce-config">
-				<salesforce:records ><![CDATA[#[[payload]]]]></salesforce:records>
+				<salesforce:records><![CDATA[#[[payload]]]]></salesforce:records>
 		</salesforce:create>
 			<logger level="INFO" doc:name="After creating record in Salesforce" doc:id="c00c003d-04b2-4fce-ac86-983e9df385b4" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "After creating record in Salesforce",&#10;    "objName": vars.objName&#10;}]'/>
 		</until-successful>

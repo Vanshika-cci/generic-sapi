@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="get-heath-check-test-suite.xml" />
+	<munit:test name="get-heath-check-test-suite" doc:id="ebff2fc1-b53b-4a4a-b9ff-2a534ba686b5" description="Success">
+		<munit:execution >
+			<flow-ref doc:name="get-heath-check-sub-flow" doc:id="83e7f71c-5544-4c8c-92c2-b14a3084cf1c" name="get-heath-check-sub-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify : Flow End" doc:id="cba66d75-41e8-4a81-bdf3-f06492d50275" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="9a4ed538-7eec-4169-84bd-448fc707bc31" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

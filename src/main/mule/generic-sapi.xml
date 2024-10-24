@@ -17,20 +17,24 @@
         <logger level="INFO" doc:name="Flow Start" doc:id="3f74759c-e2b0-4ad7-9a2e-949e3b3f741f" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String)&#10;}]'/>
 		<flow-ref doc:name="put-upsert-sub-flow" doc:id="4f923cb1-74a1-4525-bf92-a862f981720e" name="put-upsert-sub-flow" />
 		<logger level="INFO" doc:name="Flow End" doc:id="2bf0f62f-3d42-441a-afad-0fe976863ae0" message='#[output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String)&#10;}]'/>
+		<error-handler ref="error-handler" />
     </flow>
     <flow name="get:\healthCheck:generic-sapi-config" doc:id="bf1cebd8-103e-4564-bdf8-6957d0b91fb5">
         <logger level="INFO" doc:name="Flow Start" doc:id="51b0d56f-7e05-40c7-b5e7-b5961030bd87" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String)&#10;}]'/>
 		<flow-ref doc:name="get-heath-check-sub-flow" doc:id="5ff0c09c-9209-4fcd-8388-3f4a87a46f36" name="get-heath-check-sub-flow" />
 		<logger level="INFO" doc:name="Flow End" doc:id="b72968d8-6c15-4ec6-9b95-f068bf603366" message='#[output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String)&#10;}]'/>
+		<error-handler/>
     </flow>
     <flow name="post:\create:application\json:generic-sapi-config" doc:id="b8b1f57c-ff50-463b-9e11-fb63b6667c65">
         <logger level="INFO" doc:name="Flow Start" doc:id="958f2635-e1e2-4499-9447-86e90f72831b" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String)&#10;}]'/>
 		<flow-ref doc:name="post-create-sub-flow" doc:id="e334c220-2c64-4374-b762-c120ec70bebf" name="post-create-sub-flow" />
 		<logger level="INFO" doc:name="Flow End" doc:id="275d4eb9-8b89-44af-a0fd-2b958d113a44" message='#[output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String)&#10;}]'/>
+		<error-handler ref="error-handler" />
     </flow>
     <flow name="post:\fetch:application\json:generic-sapi-config" doc:id="64767d75-5acd-4efe-8061-4a3213d18e26">
         <logger level="INFO" doc:name="Flow Start" doc:id="4795c1c7-1100-431d-8398-499b3d876417" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    "Message" : "Start : " ++ (flow.name as String)&#10;}]'/>
 		<flow-ref doc:name="post-query-sub-flow" doc:id="3f34cc6e-c839-4195-b257-0d8c5c1f7e9f" name="post-query-sub-flow" />
 		<logger level="INFO" doc:name="Flow End" doc:id="ed75676d-662b-429b-bfd3-72a24be96af5" message='#[output application/json&#10;---&#10;{&#10;    "Message" : "End : " ++ (flow.name as String)&#10;}]'/>
+		<error-handler ref="error-handler" />
     </flow>
 </mule>
